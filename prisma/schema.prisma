@@ -1,0 +1,126 @@
+// Sistema de gestão de aulas de tênis do Dudu Ribeiro
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusAula {
+  AGENDADA
+  DADA
+  CANCELADA
+}
+
+enum StatusPacote {
+  ATIVO
+  ENCERRADO
+  CANCELADO
+}
+
+enum FormaPagamento {
+  PIX
+  DINHEIRO
+  CARTAO
+  TRANSFERENCIA
+  OUTRO
+}
+
+model Aluno {
+  id                    String   @id @default(cuid())
+  nome                  String
+  telefone              String?
+  email                 String?
+  valorAulaPadraoCentavos Int    @default(0)
+  observacoes           String?
+  ativo                 Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  horariosFixos  HorarioFixo[]
+  pacotes        Pacote[]
+  participacoes  AulaParticipante[]
+  pagamentos     Pagamento[]
+}
+
+model HorarioFixo {
+  id        String   @id @default(cuid())
+  alunoId   String
+  aluno     Aluno    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  diaSemana Int // 0 = domingo ... 6 = sábado
+  horario   String // "HH:MM"
+  quadra    String?
+  valorCentavos Int? // se nulo, usa o valor padrão do aluno
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  aulas Aula[]
+}
+
+model Pacote {
+  id                  String       @id @default(cuid())
+  alunoId             String
+  aluno               Aluno        @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  quantidadeAulas     Int
+  valorTotalCentavos  Int
+  dataInicio          DateTime     @default(now())
+  status              StatusPacote @default(ATIVO)
+  observacoes         String?
+  createdAt           DateTime     @default(now())
+
+  participacoes AulaParticipante[]
+  pagamentos    Pagamento[]
+}
+
+model Aula {
+  id            String     @id @default(cuid())
+  data          DateTime // apenas a data (sem hora)
+  horario       String // "HH:MM"
+  quadra        String?
+  status        StatusAula @default(DADA)
+  observacoes   String?
+  horarioFixoId String?
+  horarioFixo   HorarioFixo? @relation(fields: [horarioFixoId], references: [id], onDelete: SetNull)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  participantes AulaParticipante[]
+
+  @@index([data])
+}
+
+model AulaParticipante {
+  id                String   @id @default(cuid())
+  aulaId            String
+  aula              Aula     @relation(fields: [aulaId], references: [id], onDelete: Cascade)
+  alunoId           String
+  aluno             Aluno    @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  valorCentavos     Int
+  pacoteId          String?
+  pacote            Pacote?  @relation(fields: [pacoteId], references: [id], onDelete: SetNull)
+  consomeCredito    Boolean  @default(true) // desconta 1 aula do pacote
+  avulsa            Boolean  @default(false) // aula avulsa (fora do pacote/horário fixo)
+  createdAt         DateTime @default(now())
+
+  @@unique([aulaId, alunoId])
+  @@index([alunoId])
+  @@index([pacoteId])
+}
+
+model Pagamento {
+  id             String         @id @default(cuid())
+  alunoId        String
+  aluno          Aluno          @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  pacoteId       String?
+  pacote         Pacote?        @relation(fields: [pacoteId], references: [id], onDelete: SetNull)
+  valorCentavos  Int
+  data           DateTime       @default(now())
+  formaPagamento FormaPagamento @default(PIX)
+  observacoes    String?
+  createdAt      DateTime       @default(now())
+
+  @@index([alunoId])
+}

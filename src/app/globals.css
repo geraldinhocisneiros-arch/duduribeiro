@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f7f5;
+  --foreground: #14231b;
+  --card: #ffffff;
+  --border: #e2e5e0;
+  --primary: #1f7a4d;
+  --primary-dark: #155c39;
+  --muted: #5b6b60;
+  --danger: #c0392b;
+  --warning: #b7791f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-muted: var(--muted);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)];
+  }
+  .btn-secondary {
+    @apply bg-white text-[var(--foreground)] border border-[var(--border)] hover:bg-gray-50;
+  }
+  .btn-danger {
+    @apply bg-white text-[var(--danger)] border border-[var(--border)] hover:bg-red-50;
+  }
+  .btn-ghost {
+    @apply text-[var(--muted)] hover:bg-black/5;
+  }
+  .card {
+    @apply bg-[var(--card)] border border-[var(--border)] rounded-xl shadow-sm;
+  }
+  .input {
+    @apply w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/40 focus:border-[var(--primary)];
+  }
+  .label {
+    @apply block text-xs font-medium text-[var(--muted)] mb-1;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+}

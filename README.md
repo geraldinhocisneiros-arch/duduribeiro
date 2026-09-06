@@ -35,16 +35,18 @@ pacotes de aulas e financeiro (quem pagou, quem deve).
 ## Stack
 
 - [Next.js](https://nextjs.org) (App Router) + TypeScript
-- [Prisma](https://www.prisma.io) + SQLite (arquivo local `prisma/dev.db`,
-  fácil de trocar por Postgres depois se o sistema crescer)
+- [Prisma](https://www.prisma.io) + PostgreSQL
 - Tailwind CSS
 
 ## Rodando localmente
 
+Precisa de um Postgres acessível (local, Docker, ou já o banco gerenciado de
+produção — ver seção de Deploy abaixo).
+
 ```bash
 npm install
-cp .env.example .env
-npx prisma migrate dev
+cp .env.example .env   # edite DATABASE_URL com a connection string do seu Postgres
+npx prisma migrate deploy
 npm run dev
 ```
 
@@ -61,9 +63,4 @@ Acesse http://localhost:3000.
 
 ## Deploy
 
-Como é um app Next.js padrão, pode ser publicado em qualquer serviço que
-rode Node (Vercel, Railway, uma VPS simples, etc.). Se for usar Vercel, é
-recomendável trocar o SQLite por um banco Postgres gerenciado (ex. Neon /
-Supabase), pois o sistema de arquivos da Vercel não é persistente — troque
-`DATABASE_URL` e o `provider` do `datasource` em `schema.prisma` para
-`postgresql` quando for fazer esse deploy.
+Passo a passo completo (Vercel + Neon) no arquivo [`DEPLOY.md`](./DEPLOY.md).

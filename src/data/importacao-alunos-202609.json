@@ -1,0 +1,400 @@
+{
+  "alunos": [
+    {
+      "nome": "João Amorim",
+      "telefone": "(81) 99468-3755"
+    },
+    {
+      "nome": "Joao Amorim Carlos",
+      "telefone": "81 999711709"
+    },
+    {
+      "nome": "Arthur Paes",
+      "telefone": "81996687676"
+    },
+    {
+      "nome": "Beatriz Paes",
+      "telefone": "81996687676"
+    },
+    {
+      "nome": "Francisco Da Fonte",
+      "telefone": "81989814444"
+    },
+    {
+      "nome": "Rafael Cavalcante Rosa E Silva",
+      "telefone": "81 99851-8844"
+    },
+    {
+      "nome": "Tiago Souza Leão",
+      "telefone": "81982925591"
+    },
+    {
+      "nome": "Gustavo Chaves",
+      "telefone": "81996613000"
+    },
+    {
+      "nome": "Adolph Queiroz",
+      "telefone": "(81) 99127-9244"
+    },
+    {
+      "nome": "Pedro Saldanha",
+      "telefone": "81982487798"
+    },
+    {
+      "nome": "André Monte",
+      "telefone": "81991749049"
+    },
+    {
+      "nome": "Camila Santana",
+      "telefone": "(81) 99777-4224"
+    },
+    {
+      "nome": "Carlos Mello",
+      "telefone": "(81) 99635-6247"
+    },
+    {
+      "nome": "Eduardo Ribeiro",
+      "telefone": "81995117015"
+    },
+    {
+      "nome": "Gabriel Coelho",
+      "telefone": "(81) 99899-3632"
+    },
+    {
+      "nome": "Gabriela Hacker",
+      "telefone": "81996332254"
+    },
+    {
+      "nome": "Henrique Escariao",
+      "telefone": "(81) 98275-2180"
+    },
+    {
+      "nome": "Humberto Nunes",
+      "telefone": "(81) 98166-7586"
+    },
+    {
+      "nome": "José Galvão",
+      "telefone": "(81) 99619-7553"
+    },
+    {
+      "nome": "Jose Galvão (individual)",
+      "telefone": "(81) 99619-7553 ("
+    },
+    {
+      "nome": "Jose Santana",
+      "telefone": "(81) 99777-3939"
+    },
+    {
+      "nome": "Julio Maranhão",
+      "telefone": "81999749939"
+    },
+    {
+      "nome": "Leonardo Harrop",
+      "telefone": "81992785270"
+    },
+    {
+      "nome": "Leonardo Paes",
+      "telefone": "(81) 99927-2974"
+    },
+    {
+      "nome": "Livia Carrasqueira",
+      "telefone": null
+    },
+    {
+      "nome": "Marcelo Medrado",
+      "telefone": null
+    },
+    {
+      "nome": "Mariana Maimone",
+      "telefone": "81 99292-9217"
+    },
+    {
+      "nome": "Mario Lyco",
+      "telefone": "(81) 98207-7705"
+    },
+    {
+      "nome": "Mauricio Duque",
+      "telefone": "81992052819"
+    },
+    {
+      "nome": "Paulo Galindo",
+      "telefone": "(81) 99835-5435"
+    },
+    {
+      "nome": "Pedro Lins",
+      "telefone": "81995002122"
+    },
+    {
+      "nome": "Pedro Nader",
+      "telefone": "(81) 99702-4500"
+    },
+    {
+      "nome": "Rai Rodrigues",
+      "telefone": "(81) 99208-6410"
+    },
+    {
+      "nome": "Thiago Burle",
+      "telefone": "81994965691"
+    }
+  ],
+  "horarios": [
+    {
+      "aluno": "Leonardo Paes",
+      "diaSemana": 1,
+      "horario": "07:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Gabriela Hacker",
+      "diaSemana": 1,
+      "horario": "08:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Camila Santana",
+      "diaSemana": 1,
+      "horario": "11:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Humberto Nunes",
+      "diaSemana": 1,
+      "horario": "12:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Eduardo Ribeiro",
+      "diaSemana": 1,
+      "horario": "15:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Mariana Maimone",
+      "diaSemana": 1,
+      "horario": "17:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Leonardo Harrop",
+      "diaSemana": 1,
+      "horario": "18:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Rai Rodrigues",
+      "diaSemana": 1,
+      "horario": "19:00",
+      "quadra": "8"
+    },
+    {
+      "aluno": "Paulo Galindo",
+      "diaSemana": 1,
+      "horario": "21:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Julio Maranhão",
+      "diaSemana": 2,
+      "horario": "06:00",
+      "quadra": "6"
+    },
+    {
+      "aluno": "Mauricio Duque",
+      "diaSemana": 2,
+      "horario": "07:00",
+      "quadra": "8"
+    },
+    {
+      "aluno": "Beatriz Paes",
+      "diaSemana": 2,
+      "horario": "08:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Pedro Saldanha",
+      "diaSemana": 2,
+      "horario": "09:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Tiago Souza Leão",
+      "diaSemana": 2,
+      "horario": "11:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Carlos Mello",
+      "diaSemana": 2,
+      "horario": "12:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Francisco Da Fonte",
+      "diaSemana": 2,
+      "horario": "14:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "João Amorim",
+      "diaSemana": 2,
+      "horario": "15:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Arthur Paes",
+      "diaSemana": 2,
+      "horario": "17:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Joao Amorim Carlos",
+      "diaSemana": 2,
+      "horario": "18:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Pedro Nader",
+      "diaSemana": 2,
+      "horario": "19:00",
+      "quadra": "8"
+    },
+    {
+      "aluno": "Jose Galvão (individual)",
+      "diaSemana": 2,
+      "horario": "20:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Rafael Cavalcante Rosa E Silva",
+      "diaSemana": 2,
+      "horario": "20:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Adolph Queiroz",
+      "diaSemana": 2,
+      "horario": "21:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Gabriel Coelho",
+      "diaSemana": 3,
+      "horario": "06:00",
+      "quadra": "5"
+    },
+    {
+      "aluno": "Camila Santana",
+      "diaSemana": 3,
+      "horario": "07:00",
+      "quadra": "5"
+    },
+    {
+      "aluno": "Gabriela Hacker",
+      "diaSemana": 3,
+      "horario": "08:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Humberto Nunes",
+      "diaSemana": 3,
+      "horario": "12:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Mario Lyco",
+      "diaSemana": 3,
+      "horario": "13:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "André Monte",
+      "diaSemana": 3,
+      "horario": "15:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Eduardo Ribeiro",
+      "diaSemana": 3,
+      "horario": "16:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Mariana Maimone",
+      "diaSemana": 3,
+      "horario": "17:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Leonardo Paes",
+      "diaSemana": 3,
+      "horario": "18:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Leonardo Harrop",
+      "diaSemana": 3,
+      "horario": "20:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Julio Maranhão",
+      "diaSemana": 4,
+      "horario": "06:00",
+      "quadra": "6"
+    },
+    {
+      "aluno": "Mauricio Duque",
+      "diaSemana": 4,
+      "horario": "07:00",
+      "quadra": "5"
+    },
+    {
+      "aluno": "Adolph Queiroz",
+      "diaSemana": 4,
+      "horario": "08:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Beatriz Paes",
+      "diaSemana": 4,
+      "horario": "09:00",
+      "quadra": "2"
+    },
+    {
+      "aluno": "Rai Rodrigues",
+      "diaSemana": 4,
+      "horario": "12:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Francisco Da Fonte",
+      "diaSemana": 4,
+      "horario": "14:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "João Amorim",
+      "diaSemana": 4,
+      "horario": "15:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Arthur Paes",
+      "diaSemana": 4,
+      "horario": "17:00",
+      "quadra": "1"
+    },
+    {
+      "aluno": "Leonardo Paes",
+      "diaSemana": 4,
+      "horario": "19:00",
+      "quadra": "8"
+    },
+    {
+      "aluno": "Humberto Nunes",
+      "diaSemana": 5,
+      "horario": "12:00",
+      "quadra": "1"
+    }
+  ]
+}

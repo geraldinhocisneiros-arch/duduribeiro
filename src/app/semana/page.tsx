@@ -53,10 +53,10 @@ export default async function GradeSemanalPage({
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-2">
-        <div className="flex gap-3" style={{ minWidth: "max-content" }}>
+      <div className="relative left-1/2 w-screen -translate-x-1/2 px-4">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
           {dias.map(({ data, dataStr, diaSemana, slots }) => (
-            <div key={dataStr} className="card w-64 shrink-0 p-3">
+            <div key={dataStr} className="card p-3">
               <h2 className="mb-2 border-b border-[var(--border)] pb-2 font-semibold">
                 {DIAS_SEMANA[diaSemana]}
                 <span className="ml-1 font-normal text-[var(--muted)]">{formatDate(data)}</span>

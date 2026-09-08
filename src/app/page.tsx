@@ -87,7 +87,10 @@ export default async function DashboardPage({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-medium">
-                  {horarioFixo.horario} — {horarioFixo.aluno.nome}
+                  {horarioFixo.horario} —{" "}
+                  <Link href={`/alunos/${horarioFixo.alunoId}`} className="underline">
+                    {horarioFixo.aluno.nome}
+                  </Link>
                 </p>
                 <p className="text-xs text-[var(--muted)]">
                   {horarioFixo.quadra ? `Quadra ${horarioFixo.quadra} · ` : ""}
@@ -110,7 +113,9 @@ export default async function DashboardPage({
                 {aula.participantes.map((p) => (
                   <div key={p.id} className="flex items-center justify-between">
                     <span>
-                      {p.aluno.nome}
+                      <Link href={`/alunos/${p.alunoId}`} className="underline">
+                        {p.aluno.nome}
+                      </Link>
                       {p.alunoId !== horarioFixo.alunoId && (
                         <span className="ml-1 text-xs text-[var(--warning)]">(substituição)</span>
                       )}
@@ -187,7 +192,9 @@ export default async function DashboardPage({
                     <div className="mt-1 space-y-0.5 text-sm">
                       {aula.participantes.map((p) => (
                         <div key={p.id} className="flex items-center gap-2">
-                          <span>{p.aluno.nome}</span>
+                          <Link href={`/alunos/${p.alunoId}`} className="underline">
+                            {p.aluno.nome}
+                          </Link>
                           <span className="text-[var(--muted)]">{formatCentavos(p.valorCentavos)}</span>
                         </div>
                       ))}

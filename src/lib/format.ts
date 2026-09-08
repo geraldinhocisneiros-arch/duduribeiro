@@ -69,6 +69,13 @@ export function dateToInputValue(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
+// Retorna a segunda-feira (00:00 UTC) da semana que contém a data informada
+export function segundaFeiraDaSemana(data: Date): Date {
+  const diaSemana = data.getUTCDay(); // 0 = domingo ... 6 = sábado
+  const diffParaSegunda = diaSemana === 0 ? 6 : diaSemana - 1;
+  return new Date(data.getTime() - diffParaSegunda * 24 * 60 * 60 * 1000);
+}
+
 export const FORMAS_PAGAMENTO = [
   { value: "PIX", label: "Pix" },
   { value: "DINHEIRO", label: "Dinheiro" },

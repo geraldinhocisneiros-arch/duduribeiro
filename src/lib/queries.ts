@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { dateToInputValue } from "@/lib/format";
 
 // Aulas restantes de um pacote = quantidade contratada - aulas já dadas que consomem crédito desse pacote
 export async function getAulasRestantesPacote(pacoteId: string, quantidadeAulas: number) {
@@ -112,19 +113,39 @@ export async function getAlunosParaFormularioAula() {
   );
 }
 
-// Monta a grade semanal: todos os horários fixos ativos, agrupados por dia da semana
-// e ordenados por horário dentro de cada dia — um cartão por horário, como uma agenda visual.
-export async function getGradeSemanal() {
-  const horariosFixos = await prisma.horarioFixo.findMany({
-    where: { ativo: true },
-    include: { aluno: true },
-    orderBy: [{ diaSemana: "asc" }, { horario: "asc" }],
-  });
+// Monta a grade semanal (segunda a domingo, a partir da data informada) com o status real
+// de cada horário fixo naquela semana: pendente, dada (com presença) ou cancelada.
+export async function getGradeSemanalComStatus(segundaFeira: Date) {
+  const fimSemana = new Date(segundaFeira.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-  return Array.from({ length: 7 }, (_, diaSemana) => ({
-    diaSemana,
-    horarios: horariosFixos.filter((h) => h.diaSemana === diaSemana),
-  }));
+  const [horariosFixos, aulasDaSemana] = await Promise.all([
+    prisma.horarioFixo.findMany({
+      where: { ativo: true },
+      include: { aluno: true },
+      orderBy: [{ diaSemana: "asc" }, { horario: "asc" }],
+    }),
+    prisma.aula.findMany({
+      where: { data: { gte: segundaFeira, lt: fimSemana }, horarioFixoId: { not: null } },
+      include: { participantes: { include: { aluno: true, pacote: true } } },
+    }),
+  ]);
+
+  const aulaPorChave = new Map(
+    aulasDaSemana.map((a) => [`${a.horarioFixoId}_${dateToInputValue(a.data)}`, a])
+  );
+
+  return Array.from({ length: 7 }, (_, i) => {
+    const data = new Date(segundaFeira.getTime() + i * 24 * 60 * 60 * 1000);
+    const dataStr = dateToInputValue(data);
+    const diaSemana = data.getUTCDay();
+    const slots = horariosFixos
+      .filter((h) => h.diaSemana === diaSemana)
+      .map((horarioFixo) => ({
+        horarioFixo,
+        aula: aulaPorChave.get(`${horarioFixo.id}_${dataStr}`) ?? null,
+      }));
+    return { data, dataStr, diaSemana, slots };
+  });
 }
 
 // Monta a agenda de um dia: horários fixos ativos daquele dia da semana + aulas avulsas/extra já registradas no dia

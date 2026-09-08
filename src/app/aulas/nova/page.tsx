@@ -25,6 +25,7 @@ export default async function NovaAulaPage({
           valor: sp.valor ? (Number(sp.valor) / 100).toFixed(2).replace(".", ",") : "",
           pacoteId: "",
           consomeCredito: true,
+          presenca: "COMPARECEU" as const,
         },
       ]
     : undefined;

@@ -9,7 +9,7 @@ import {
   hojeUTC,
   toDateOnlyUTC,
 } from "@/lib/format";
-import { checkinRapidoHorarioFixo, cancelarSlotFixo, excluirAula } from "@/actions/aulas";
+import { checkinRapidoHorarioFixo, faltouHorarioFixo, cancelarSlotFixo, excluirAula } from "@/actions/aulas";
 
 export const dynamic = "force-dynamic";
 
@@ -114,6 +114,9 @@ export default async function DashboardPage({
                       {p.alunoId !== horarioFixo.alunoId && (
                         <span className="ml-1 text-xs text-[var(--warning)]">(substituição)</span>
                       )}
+                      {p.presenca === "FALTOU" && (
+                        <span className="ml-1 text-xs text-[var(--danger)]">(faltou)</span>
+                      )}
                       {p.pacote ? "" : " · avulsa"}
                     </span>
                     <span className="text-[var(--muted)]">{formatCentavos(p.valorCentavos)}</span>
@@ -127,12 +130,17 @@ export default async function DashboardPage({
                 <>
                   <form action={checkinRapidoHorarioFixo.bind(null, horarioFixo.id, dataStr)}>
                     <button type="submit" className="btn-primary">
-                      ✓ Dar check
+                      ✓ Compareceu
+                    </button>
+                  </form>
+                  <form action={faltouHorarioFixo.bind(null, horarioFixo.id, dataStr)}>
+                    <button type="submit" className="btn-secondary">
+                      Faltou
                     </button>
                   </form>
                   <form action={cancelarSlotFixo.bind(null, horarioFixo.id, dataStr)}>
                     <button type="submit" className="btn-danger">
-                      Cancelar
+                      Cancelou (aviso prévio)
                     </button>
                   </form>
                   <Link

@@ -24,6 +24,7 @@ export default async function EditarAulaPage({
     valor: (p.valorCentavos / 100).toFixed(2).replace(".", ","),
     pacoteId: p.pacoteId ?? "",
     consomeCredito: p.consomeCredito,
+    presenca: p.presenca,
   }));
 
   return (

@@ -45,7 +45,8 @@ export default async function RelatorioAlunoPage({
     linhas.push("(nenhuma aula registrada ainda)");
   }
   for (const p of participacoes) {
-    linhas.push(`• ${formatDate(p.aula.data)} às ${p.aula.horario} — ${formatCentavos(p.valorCentavos)}`);
+    const faltou = p.presenca === "FALTOU" ? " (faltou)" : "";
+    linhas.push(`• ${formatDate(p.aula.data)} às ${p.aula.horario} — ${formatCentavos(p.valorCentavos)}${faltou}`);
   }
   linhas.push("");
 

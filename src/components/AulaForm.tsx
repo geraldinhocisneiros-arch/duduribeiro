@@ -22,6 +22,7 @@ type ParticipanteRow = {
   valor: string;
   pacoteId: string;
   consomeCredito: boolean;
+  presenca: "COMPARECEU" | "FALTOU";
 };
 
 function centavosParaTexto(centavos: number) {
@@ -56,13 +57,20 @@ export default function AulaForm({
   const [rows, setRows] = useState<ParticipanteRow[]>(
     participantesIniciais && participantesIniciais.length > 0
       ? participantesIniciais
-      : [{ key: `${uid}-0`, alunoId: "", valor: "", pacoteId: "", consomeCredito: true }]
+      : [{ key: `${uid}-0`, alunoId: "", valor: "", pacoteId: "", consomeCredito: true, presenca: "COMPARECEU" }]
   );
 
   function addRow() {
     setRows((r) => [
       ...r,
-      { key: `${uid}-${r.length}-${Date.now()}`, alunoId: "", valor: "", pacoteId: "", consomeCredito: true },
+      {
+        key: `${uid}-${r.length}-${Date.now()}`,
+        alunoId: "",
+        valor: "",
+        pacoteId: "",
+        consomeCredito: true,
+        presenca: "COMPARECEU",
+      },
     ]);
   }
 
@@ -208,6 +216,20 @@ export default function AulaForm({
                       ))}
                     </select>
                   </div>
+                </div>
+                <div>
+                  <label className="label">Presença</label>
+                  <select
+                    name="participantePresenca"
+                    className="input"
+                    value={row.presenca}
+                    onChange={(e) =>
+                      updateRow(row.key, { presenca: e.target.value as "COMPARECEU" | "FALTOU" })
+                    }
+                  >
+                    <option value="COMPARECEU">Compareceu</option>
+                    <option value="FALTOU">Faltou (aula é cobrada normalmente)</option>
+                  </select>
                 </div>
                 {row.pacoteId && (
                   <label className="flex items-center gap-2 text-sm text-[var(--muted)]">

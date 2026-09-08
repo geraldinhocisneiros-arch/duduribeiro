@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { toDateOnlyUTC } from "@/lib/format";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { StatusAula } from "@prisma/client";
+import { StatusAula, Presenca } from "@prisma/client";
 
 type ParticipanteInput = {
   alunoId: string;
@@ -12,6 +12,7 @@ type ParticipanteInput = {
   pacoteId: string | null;
   consomeCredito: boolean;
   avulsa: boolean;
+  presenca: Presenca;
 };
 
 function parseParticipantes(formData: FormData): ParticipanteInput[] {
@@ -19,6 +20,7 @@ function parseParticipantes(formData: FormData): ParticipanteInput[] {
   const valores = formData.getAll("participanteValor").map(String);
   const pacoteIds = formData.getAll("participantePacoteId").map(String);
   const consomeCreditoFlags = formData.getAll("participanteConsomeCredito").map(String);
+  const presencas = formData.getAll("participantePresenca").map(String);
 
   const participantes: ParticipanteInput[] = [];
   for (let i = 0; i < alunoIds.length; i++) {
@@ -33,6 +35,7 @@ function parseParticipantes(formData: FormData): ParticipanteInput[] {
       pacoteId,
       consomeCredito: pacoteId ? consomeCreditoFlags.includes(String(i)) : false,
       avulsa: !pacoteId,
+      presenca: presencas[i] === "FALTOU" ? "FALTOU" : "COMPARECEU",
     });
   }
   return participantes;
@@ -80,6 +83,7 @@ export async function salvarAula(formData: FormData) {
           pacoteId: p.pacoteId,
           consomeCredito: p.consomeCredito,
           avulsa: p.avulsa,
+          presenca: p.presenca,
         })),
       });
     }
@@ -94,9 +98,12 @@ export async function salvarAula(formData: FormData) {
 }
 
 // Check-in rápido de um horário fixo: usa os valores padrão do aluno/horário e
-// o pacote ativo dele automaticamente (se houver). Para casos especiais (substituição,
-// divisão de quadra, valor diferente) use o formulário completo.
-export async function checkinRapidoHorarioFixo(horarioFixoId: string, dataStr: string) {
+// o pacote ativo dele automaticamente (se houver). Compareceu e faltou são
+// registrados do mesmo jeito financeiramente (aula dada, debita o valor/crédito)
+// — a única diferença é a marcação de presença, pra fins de relatório. Para
+// casos especiais (substituição, divisão de quadra, valor diferente) use o
+// formulário completo.
+async function registrarPresencaHorarioFixo(horarioFixoId: string, dataStr: string, presenca: Presenca) {
   const horarioFixo = await prisma.horarioFixo.findUniqueOrThrow({
     where: { id: horarioFixoId },
     include: { aluno: true },
@@ -123,6 +130,7 @@ export async function checkinRapidoHorarioFixo(horarioFixoId: string, dataStr: s
           pacoteId: pacoteAtivo?.id ?? null,
           consomeCredito: Boolean(pacoteAtivo),
           avulsa: !pacoteAtivo,
+          presenca,
         },
       },
     },
@@ -132,6 +140,15 @@ export async function checkinRapidoHorarioFixo(horarioFixoId: string, dataStr: s
   revalidatePath(`/alunos/${horarioFixo.alunoId}`);
 }
 
+export async function checkinRapidoHorarioFixo(horarioFixoId: string, dataStr: string) {
+  await registrarPresencaHorarioFixo(horarioFixoId, dataStr, "COMPARECEU");
+}
+
+export async function faltouHorarioFixo(horarioFixoId: string, dataStr: string) {
+  await registrarPresencaHorarioFixo(horarioFixoId, dataStr, "FALTOU");
+}
+
+// Cancelamento com antecedência: não gera cobrança nem consome crédito do pacote.
 export async function cancelarSlotFixo(horarioFixoId: string, dataStr: string) {
   const horarioFixo = await prisma.horarioFixo.findUniqueOrThrow({ where: { id: horarioFixoId } });
 
@@ -142,7 +159,7 @@ export async function cancelarSlotFixo(horarioFixoId: string, dataStr: string) {
       quadra: horarioFixo.quadra,
       status: "CANCELADA",
       horarioFixoId: horarioFixo.id,
-      observacoes: "Aula cancelada",
+      observacoes: "Cancelada com antecedência — sem cobrança",
     },
   });
 

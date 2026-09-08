@@ -31,6 +31,11 @@ enum FormaPagamento {
   OUTRO
 }
 
+enum Presenca {
+  COMPARECEU
+  FALTOU
+}
+
 model Aluno {
   id                    String   @id @default(cuid())
   nome                  String
@@ -105,6 +110,7 @@ model AulaParticipante {
   pacote            Pacote?  @relation(fields: [pacoteId], references: [id], onDelete: SetNull)
   consomeCredito    Boolean  @default(true) // desconta 1 aula do pacote
   avulsa            Boolean  @default(false) // aula avulsa (fora do pacote/horário fixo)
+  presenca          Presenca @default(COMPARECEU) // relevante quando a aula está com status DADA
   createdAt         DateTime @default(now())
 
   @@unique([aulaId, alunoId])

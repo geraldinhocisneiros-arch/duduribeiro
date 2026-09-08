@@ -226,7 +226,8 @@ export default async function AlunoDetalhePage({
             <div key={p.id} className="flex items-center justify-between text-sm">
               <span>
                 {formatDate(p.aula.data)} {p.aula.horario}
-                {p.aula.status === "CANCELADA" ? " (cancelada)" : ""}
+                {p.aula.status === "CANCELADA" ? " (cancelada, sem cobrança)" : ""}
+                {p.aula.status === "DADA" && p.presenca === "FALTOU" ? " (faltou)" : ""}
               </span>
               <span className="text-[var(--muted)]">{formatCentavos(p.valorCentavos)}</span>
             </div>

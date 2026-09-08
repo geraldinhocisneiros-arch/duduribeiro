@@ -37,6 +37,15 @@ export default async function DashboardPage({
 
   return (
     <div className="space-y-6">
+      <div className="card p-1 flex gap-1">
+        <Link href="/" className="btn-primary flex-1 justify-center">
+          Dia
+        </Link>
+        <Link href="/semana" className="btn-ghost flex-1 justify-center">
+          Semana
+        </Link>
+      </div>
+
       <div className="card p-4">
         <div className="flex items-center justify-between gap-2">
           <Link href={`/?data=${anterior}`} className="btn-secondary" aria-label="Dia anterior">

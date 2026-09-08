@@ -112,6 +112,26 @@ export async function getAlunosParaFormularioAula() {
   );
 }
 
+// Monta a grade semanal: todos os horários fixos ativos, agrupados por horário e dia da semana
+export async function getGradeSemanal() {
+  const horariosFixos = await prisma.horarioFixo.findMany({
+    where: { ativo: true },
+    include: { aluno: true },
+    orderBy: [{ horario: "asc" }, { diaSemana: "asc" }],
+  });
+
+  const horariosUnicos = Array.from(new Set(horariosFixos.map((h) => h.horario))).sort();
+
+  const grade = horariosUnicos.map((horario) => ({
+    horario,
+    porDia: Array.from({ length: 7 }, (_, diaSemana) =>
+      horariosFixos.filter((h) => h.horario === horario && h.diaSemana === diaSemana)
+    ),
+  }));
+
+  return grade;
+}
+
 // Monta a agenda de um dia: horários fixos ativos daquele dia da semana + aulas avulsas/extra já registradas no dia
 export async function getAgendaDoDia(data: Date) {
   const diaSemana = data.getUTCDay();

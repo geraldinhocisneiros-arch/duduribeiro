@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getGradeSemanal } from "@/lib/queries";
-import { DIAS_SEMANA_ABREV, formatCentavos } from "@/lib/format";
+import { DIAS_SEMANA, formatCentavos } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -26,46 +26,38 @@ export default async function GradeSemanalPage() {
         <p className="text-sm text-[var(--muted)]">Todos os horários fixos ativos, por dia da semana.</p>
       </div>
 
-      {grade.length === 0 ? (
-        <p className="card p-4 text-sm text-[var(--muted)]">Nenhum horário fixo cadastrado ainda.</p>
-      ) : (
-        <div className="card overflow-x-auto p-2">
-          <table className="w-full min-w-[640px] border-collapse text-sm">
-            <thead>
-              <tr>
-                <th className="sticky left-0 bg-[var(--card)] p-2 text-left text-xs font-medium text-[var(--muted)]">
-                  Horário
-                </th>
-                {ORDEM_DIAS.map((dia) => (
-                  <th key={dia} className="p-2 text-left text-xs font-medium text-[var(--muted)]">
-                    {DIAS_SEMANA_ABREV[dia]}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {grade.map((linha) => (
-                <tr key={linha.horario} className="border-t border-[var(--border)]">
-                  <td className="sticky left-0 bg-[var(--card)] p-2 align-top font-medium">{linha.horario}</td>
-                  {ORDEM_DIAS.map((dia) => (
-                    <td key={dia} className="p-2 align-top">
-                      {linha.porDia[dia].map((h) => (
-                        <div key={h.id} className="mb-1 last:mb-0">
-                          <p className="font-medium leading-tight">{h.aluno.nome}</p>
-                          <p className="text-xs leading-tight text-[var(--muted)]">
-                            {h.quadra ? `Quadra ${h.quadra} · ` : ""}
-                            {formatCentavos(h.valorCentavos ?? h.aluno.valorAulaPadraoCentavos)}
-                          </p>
-                        </div>
-                      ))}
-                    </td>
+      <div className="overflow-x-auto pb-2">
+        <div className="flex gap-3" style={{ minWidth: "max-content" }}>
+          {ORDEM_DIAS.map((dia) => {
+            const diaInfo = grade.find((g) => g.diaSemana === dia);
+            const horarios = diaInfo?.horarios ?? [];
+            return (
+              <div key={dia} className="card w-56 shrink-0 p-3">
+                <h2 className="mb-2 border-b border-[var(--border)] pb-2 font-semibold">
+                  {DIAS_SEMANA[dia]}
+                </h2>
+                {horarios.length === 0 && (
+                  <p className="text-sm text-[var(--muted)]">—</p>
+                )}
+                <div className="space-y-2">
+                  {horarios.map((h) => (
+                    <div key={h.id} className="rounded-lg bg-black/5 p-2 text-sm">
+                      <p className="font-medium leading-tight">
+                        {h.horario}
+                        {h.quadra ? ` · Q${h.quadra}` : ""}
+                      </p>
+                      <p className="leading-tight">{h.aluno.nome}</p>
+                      <p className="text-xs leading-tight text-[var(--muted)]">
+                        {formatCentavos(h.valorCentavos ?? h.aluno.valorAulaPadraoCentavos)}
+                      </p>
+                    </div>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }
